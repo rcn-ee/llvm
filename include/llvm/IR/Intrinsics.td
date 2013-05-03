@@ -147,6 +147,11 @@ def llvm_metadata_ty   : LLVMType<MetadataVT>;                    // !{...}
 def llvm_x86mmx_ty     : LLVMType<x86mmx>;
 def llvm_ptrx86mmx_ty  : LLVMPointerType<llvm_x86mmx_ty>;         // <1 x i64>*
 
+def llvm_ptri16_ty     : LLVMPointerType<llvm_i16_ty>;            // i16*
+def llvm_ptri32_ty     : LLVMPointerType<llvm_i32_ty>;            // i32*
+def llvm_ptri64_ty     : LLVMPointerType<llvm_i64_ty>;            // i64*
+def llvm_ptrdouble_ty  : LLVMPointerType<llvm_double_ty>;         // double*
+
 def llvm_v2i1_ty       : LLVMType<v2i1>;     //  2 x i1
 def llvm_v4i1_ty       : LLVMType<v4i1>;     //  4 x i1
 def llvm_v8i1_ty       : LLVMType<v8i1>;     //  8 x i1
@@ -581,6 +586,359 @@ def int_masked_load  : Intrinsic<[llvm_anyvector_ty],
                                  [LLVMPointerTo<0>, llvm_i32_ty,
                                   LLVMVectorSameWidth<0, llvm_i1_ty>, LLVMMatchType<0>],
                                  [IntrReadArgMem]>;
+
+//===-------------------------- TI Generic Intrinsics -------------------===//
+//
+def int_abs : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                [IntrNoMem]>;
+def int_labs : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int_llabs : Intrinsic<[llvm_i64_ty], [llvm_i64_ty],
+	                 [IntrNoMem]>;
+//def int_fabs : Intrinsic<[llvm_double_ty], [llvm_double_ty],
+//	                 [IntrNoMem]>;
+def int_fabsf : Intrinsic<[llvm_float_ty], [llvm_float_ty],
+	                  [IntrNoMem]>;
+def int__assert : Intrinsic<[], [llvm_i32_ty, llvm_ptr_ty]>;
+def int__nassert : Intrinsic<[], [llvm_i32_ty]>;
+
+//===-------------------------- C6x Intrinsics --------------------------===//
+//
+def int__extu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty,llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__ext : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty, llvm_i32_ty],
+	                [IntrNoMem]>;
+def int__set : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty, llvm_i32_ty],
+	                [IntrNoMem]>;
+def int__clr : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty, llvm_i32_ty],
+	                [IntrNoMem]>;
+def int__extur : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                  [IntrNoMem]>;
+def int__extr : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__setr : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__clrr : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__sadd : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__ssub : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__sshl : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__add2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__sub2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__subc : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__lmbd : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__abs : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                [IntrNoMem]>;
+def int__labs : Intrinsic<[llvm_i64_ty], [llvm_i64_ty],
+	                 [IntrNoMem]>;
+def int__norm : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__smpy : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__smpyhl : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                   [IntrNoMem]>;
+def int__smpylh : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                   [IntrNoMem]>;
+def int__smpyh : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                  [IntrNoMem]>;
+def int__mpy : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                [IntrNoMem]>;
+def int__mpyus : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                  [IntrNoMem]>;
+def int__mpysu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                  [IntrNoMem]>;
+def int__mpyu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                 [IntrNoMem]>;
+def int__mpyhl : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                  [IntrNoMem]>;
+def int__mpyhuls : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhslu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhlu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                   [IntrNoMem]>;
+def int__mpylh : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                  [IntrNoMem]>;
+def int__mpyluhs : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpylshu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpylhu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyh : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhus : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhsu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhu : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__lsadd : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i64_ty],
+	                    [IntrNoMem]>;
+def int__lssub : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i64_ty],
+	                    [IntrNoMem]>;
+def int__sat : Intrinsic<[llvm_i32_ty], [llvm_i64_ty],
+	                    [IntrNoMem]>;
+def int__lnorm : Intrinsic<[llvm_i32_ty], [llvm_i64_ty],
+	                    [IntrNoMem]>;
+def int__fabs : Intrinsic<[llvm_double_ty], [llvm_double_ty],
+	                    [IntrNoMem]>;
+def int__fabsf : Intrinsic<[llvm_float_ty], [llvm_float_ty],
+	                    [IntrNoMem]>;
+def int__mpyid : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyidll : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__spint : Intrinsic<[llvm_i32_ty], [llvm_float_ty],
+	                    [IntrNoMem]>;
+def int__dpint : Intrinsic<[llvm_i32_ty], [llvm_double_ty],
+	                    [IntrNoMem]>;
+def int__rcpsp : Intrinsic<[llvm_float_ty], [llvm_float_ty],
+	                    [IntrNoMem]>;
+def int__rcpdp : Intrinsic<[llvm_double_ty], [llvm_double_ty],
+	                    [IntrNoMem]>;
+def int__rsqrsp : Intrinsic<[llvm_float_ty], [llvm_float_ty],
+	                    [IntrNoMem]>;
+def int__rsqrdp : Intrinsic<[llvm_double_ty], [llvm_double_ty],
+	                    [IntrNoMem]>;
+def int__hi : Intrinsic<[llvm_i32_ty], [llvm_double_ty],
+	                    [IntrNoMem]>;
+def int__hill : Intrinsic<[llvm_i32_ty], [llvm_i64_ty],
+	                    [IntrNoMem]>;
+def int__lo : Intrinsic<[llvm_i32_ty], [llvm_double_ty],
+	                    [IntrNoMem]>;
+def int__loll : Intrinsic<[llvm_i32_ty], [llvm_i64_ty],
+	                    [IntrNoMem]>;
+def int__itod : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__itoll : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__itof : Intrinsic<[llvm_float_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ftoi : Intrinsic<[llvm_i32_ty], [llvm_float_ty],
+	                    [IntrNoMem]>;
+def int__add4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__avg2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__avgu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__cmpeq2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__cmpeq4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__cmpgt2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__cmpgtu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dotp2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dotpn2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dotpnrsu2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dotprsu2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dotpsu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dotpu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__gmpy4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ldotp2 : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__max2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__maxu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__min2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__minu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy2 : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy2ll : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhi : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhill : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyhir : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyli : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpylill : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpylir : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpysu4 : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpysu4ll : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyu4 : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpyu4ll : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__pack2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__packh2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__packh4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__packhl2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__packl4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__packlh2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__rotl : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__sadd2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__saddu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__saddus2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__shlmb : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__shr2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__shrmb : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__shru2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__smpy2 : Intrinsic<[llvm_double_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__smpy2ll : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__spack2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__spacku4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__sshvl : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__sshvr : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__sub4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__subabs4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__abs2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__bitc4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__bitr : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__deal : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mvd : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__shfl : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__swap4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__unpkhu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__unpklu4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__xpnd2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__xpnd4 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__addsub : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__addsub2 : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__cmpy : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__cmpyr : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__cmpyr1 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ddotph2 : Intrinsic<[llvm_i64_ty], [llvm_i64_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ddotph2r : Intrinsic<[llvm_i32_ty], [llvm_i64_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ddotpl2 : Intrinsic<[llvm_i64_ty], [llvm_i64_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ddotpl2r : Intrinsic<[llvm_i32_ty], [llvm_i64_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ddotp4 : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dpack2 : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dpackx2 : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__dmv : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__gmpy : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy32ll : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy32 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy32su : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy32us : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy32u : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mpy2ir : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__rpack2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__saddsub : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__saddsub2 : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__shfl3 : Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__smpy32 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__ssub2 : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__xormpy : Intrinsic<[llvm_i32_ty], [llvm_i32_ty, llvm_i32_ty],
+	                    [IntrNoMem]>;
+def int__mem8_const : Intrinsic<[llvm_ptri64_ty], [llvm_ptr_ty], 
+	                       [IntrNoMem]>;
+def int__memd8_const : Intrinsic<[llvm_ptrdouble_ty], [llvm_ptr_ty], 
+	                        [IntrNoMem]>;
+def int__mem4_const : Intrinsic<[llvm_ptri32_ty], [llvm_ptr_ty], 
+	                       [IntrNoMem]>;
+def int__mem2_const : Intrinsic<[llvm_ptri16_ty], [llvm_ptr_ty], 
+	                       [IntrNoMem]>;
+def int__mem8 : Intrinsic<[llvm_ptri64_ty], [llvm_ptr_ty], 
+	                 [IntrNoMem]>;
+def int__memd8 : Intrinsic<[llvm_ptrdouble_ty], [llvm_ptr_ty], 
+	                  [IntrNoMem]>;
+def int__mem4 : Intrinsic<[llvm_ptri32_ty], [llvm_ptr_ty], 
+	                 [IntrNoMem]>;
+def int__mem2 : Intrinsic<[llvm_ptri16_ty], [llvm_ptr_ty], 
+	                 [IntrNoMem]>;
+def int__amem8_const : Intrinsic<[llvm_ptri64_ty], [llvm_ptr_ty], 
+	                        [IntrNoMem]>;
+def int__amemd8_const : Intrinsic<[llvm_ptrdouble_ty], [llvm_ptr_ty], 
+	                         [IntrNoMem]>;
+def int__amem4_const : Intrinsic<[llvm_ptri32_ty], [llvm_ptr_ty], 
+	                        [IntrNoMem]>;
+def int__amem2_const : Intrinsic<[llvm_ptri16_ty], [llvm_ptr_ty], 
+	                        [IntrNoMem]>;
+def int__amem8 : Intrinsic<[llvm_ptri64_ty], [llvm_ptr_ty], 
+	                  [IntrNoMem]>;
+def int__amemd8 : Intrinsic<[llvm_ptrdouble_ty], [llvm_ptr_ty], 
+	                   [IntrNoMem]>;
+def int__amem4 : Intrinsic<[llvm_ptri32_ty], [llvm_ptr_ty], 
+	                  [IntrNoMem]>;
+def int__amem2 : Intrinsic<[llvm_ptri16_ty], [llvm_ptr_ty], 
+	                  [IntrNoMem]>;
+
 //===----------------------------------------------------------------------===//
 // Target-specific intrinsics
 //===----------------------------------------------------------------------===//
