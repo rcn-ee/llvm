@@ -29,6 +29,10 @@ const char *Triple::getArchTypeName(ArchType Kind) {
   case mips64:      return "mips64";
   case mips64el:    return "mips64el";
   case msp430:      return "msp430";
+  case c2000:       return "c2000";
+  case c6000:       return "c6000";
+  case c6000be:     return "c6000be";
+  case c7000:       return "c7000";
   case ppc64:       return "powerpc64";
   case ppc64le:     return "powerpc64le";
   case ppc:         return "powerpc";
@@ -196,6 +200,10 @@ Triple::ArchType Triple::getArchTypeForLLVMName(StringRef Name) {
     .Case("mips64", mips64)
     .Case("mips64el", mips64el)
     .Case("msp430", msp430)
+    .Case("c2000", c2000)
+    .Case("c6000", c6000)
+    .Case("c6000be", c6000be)
+    .Case("c7000", c7000)
     .Case("ppc64", ppc64)
     .Case("ppc32", ppc)
     .Case("ppc", ppc)
@@ -284,6 +292,10 @@ static Triple::ArchType parseArch(StringRef ArchName) {
     .StartsWith("thumb", parseARMArch(ArchName))
     .StartsWith("aarch64", parseARMArch(ArchName))
     .Case("msp430", Triple::msp430)
+    .Case("c2000", Triple::c2000)
+    .Case("c6000", Triple::c6000)
+    .Case("c6000be", Triple::c6000be)
+    .Case("c7000", Triple::c7000)
     .Cases("mips", "mipseb", "mipsallegrex", Triple::mips)
     .Cases("mipsel", "mipsallegrexel", Triple::mipsel)
     .Cases("mips64", "mips64eb", Triple::mips64)
@@ -843,6 +855,7 @@ static unsigned getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
     return 0;
 
   case llvm::Triple::msp430:
+  case llvm::Triple::c2000:
     return 16;
 
   case llvm::Triple::arm:
@@ -864,6 +877,8 @@ static unsigned getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
   case llvm::Triple::hsail:
   case llvm::Triple::spir:
   case llvm::Triple::kalimba:
+  case llvm::Triple::c6000:
+  case llvm::Triple::c6000be:
     return 32;
 
   case llvm::Triple::aarch64:
@@ -881,6 +896,7 @@ static unsigned getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
   case llvm::Triple::amdil64:
   case llvm::Triple::hsail64:
   case llvm::Triple::spir64:
+  case llvm::Triple::c7000:
     return 64;
   }
   llvm_unreachable("Invalid architecture value");
@@ -906,6 +922,8 @@ Triple Triple::get32BitArchVariant() const {
   case Triple::aarch64_be:
   case Triple::amdgcn:
   case Triple::msp430:
+  case Triple::c2000:
+  case Triple::c7000:
   case Triple::systemz:
   case Triple::ppc64le:
     T.setArch(UnknownArch);
@@ -930,6 +948,8 @@ Triple Triple::get32BitArchVariant() const {
   case Triple::thumbeb:
   case Triple::x86:
   case Triple::xcore:
+  case Triple::c6000:
+  case Triple::c6000be:
     // Already 32-bit.
     break;
 
@@ -956,6 +976,9 @@ Triple Triple::get64BitArchVariant() const {
   case Triple::hexagon:
   case Triple::kalimba:
   case Triple::msp430:
+  case Triple::c2000:
+  case Triple::c6000:
+  case Triple::c6000be:
   case Triple::r600:
   case Triple::tce:
   case Triple::thumb:
@@ -979,6 +1002,7 @@ Triple Triple::get64BitArchVariant() const {
   case Triple::sparcv9:
   case Triple::systemz:
   case Triple::x86_64:
+  case Triple::c7000:
     // Already 64-bit.
     break;
 

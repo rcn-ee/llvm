@@ -56,6 +56,10 @@ public:
     mips64,     // MIPS64: mips64
     mips64el,   // MIPS64EL: mips64el
     msp430,     // MSP430: msp430
+    c2000,      // TI C2000
+    c6000,      // TI C6000 (little endian)
+    c6000be,    // TI C6000 (big endian)
+    c7000,      // TI C7000 (little endian)
     ppc,        // PPC: powerpc
     ppc64,      // PPC64: powerpc64, ppu
     ppc64le,    // PPC64LE: powerpc64le
