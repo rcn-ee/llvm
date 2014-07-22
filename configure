@@ -5340,6 +5340,7 @@ case "$enableval" in
         mips64)   TARGETS_TO_BUILD="Mips $TARGETS_TO_BUILD" ;;
         mips64el) TARGETS_TO_BUILD="Mips $TARGETS_TO_BUILD" ;;
         xcore)    TARGETS_TO_BUILD="XCore $TARGETS_TO_BUILD" ;;
+        c6000)    TARGETS_TO_BUILD="C6000 $TARGETS_TO_BUILD" ;;
         msp430)   TARGETS_TO_BUILD="MSP430 $TARGETS_TO_BUILD" ;;
         cpp)      TARGETS_TO_BUILD="CppBackend $TARGETS_TO_BUILD" ;;
         hexagon)  TARGETS_TO_BUILD="Hexagon $TARGETS_TO_BUILD" ;;
@@ -5355,6 +5356,7 @@ case "$enableval" in
             ARM)         TARGETS_TO_BUILD="ARM $TARGETS_TO_BUILD" ;;
             Mips)        TARGETS_TO_BUILD="Mips $TARGETS_TO_BUILD" ;;
             XCore)       TARGETS_TO_BUILD="XCore $TARGETS_TO_BUILD" ;;
+            c6000)       TARGETS_TO_BUILD="C6000 $TARGETS_TO_BUILD" ;;
             MSP430)      TARGETS_TO_BUILD="MSP430 $TARGETS_TO_BUILD" ;;
             Hexagon)     TARGETS_TO_BUILD="Hexagon $TARGETS_TO_BUILD" ;;
             NVPTX)       TARGETS_TO_BUILD="NVPTX $TARGETS_TO_BUILD" ;;
