@@ -15,6 +15,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "C6000.h"
+#include "llvm/Analysis/LoopInfo.h"
 #include "llvm/Analysis/TargetTransformInfo.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Target/CostTable.h"
@@ -60,6 +61,14 @@ class C6000TTI final : public ImmutablePass, public TargetTransformInfo {
     return this;
   }
 
+  /// \name Scalar TTI Implementations
+  /// @{
+
+  void getUnrollingPreferences(Loop *L,
+                               UnrollingPreferences &UP) const override;
+
+  /// @}
+
   /// \name Vector TTI Implementations
   /// @{
 
@@ -77,6 +86,9 @@ class C6000TTI final : public ImmutablePass, public TargetTransformInfo {
   unsigned getMaximumUnrollFactor() const override {
       return 4;
   }
+
+  unsigned getMemoryOpCost(unsigned Opcode, Type *Src, unsigned Alignment,
+                           unsigned AddressSpace) const override;
 };
 
 } // end anonymous namespace
@@ -88,4 +100,34 @@ char C6000TTI::ID = 0;
 ImmutablePass *
 llvm::createC6000TargetTransformInfoPass(const C6000TargetMachine *TM) {
   return new C6000TTI(TM);
+}
+
+void C6000TTI::getUnrollingPreferences(Loop *L,
+                                       UnrollingPreferences &UP) const {
+  // Scan the loop: don't unroll loops with calls.
+   for (Loop::block_iterator I = L->block_begin(), E = L->block_end();
+       I != E; ++I) {
+    BasicBlock *BB = *I;
+
+    for (BasicBlock::iterator J = BB->begin(), JE = BB->end(); J != JE; ++J)
+      if (isa<CallInst>(J) || isa<InvokeInst>(J)) {
+        ImmutableCallSite CS(J);
+        if (const Function *F = CS.getCalledFunction()) {
+          if (!TopTTI->isLoweredToCall(F))
+            continue;
+        }
+
+        return;
+      }
+  }
+
+  // Enable runtime and partial unrolling
+  UP.Partial = UP.Runtime = true;
+}
+
+unsigned C6000TTI::getMemoryOpCost(unsigned Opcode, Type *Src, 
+                                   unsigned Alignment,
+                                   unsigned AddressSpace) const {
+   // TODO: implement correctly...
+   return 1;
 }
