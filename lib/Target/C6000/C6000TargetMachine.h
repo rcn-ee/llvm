@@ -28,8 +28,6 @@ public:
                      Reloc::Model RM, CodeModel::Model CM,
                      CodeGenOpt::Level OL);
 
-  const DataLayout       *getDataLayout() const override { return &DL; }
-
   /// \brief Register C6000 analysis passes with a pass manager.
   void addAnalysisPasses(PassManagerBase &PM) override;
 
