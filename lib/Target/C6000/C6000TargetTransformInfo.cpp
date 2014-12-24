@@ -64,7 +64,7 @@ class C6000TTI final : public ImmutablePass, public TargetTransformInfo {
   /// \name Scalar TTI Implementations
   /// @{
 
-  void getUnrollingPreferences(Loop *L,
+  void getUnrollingPreferences(const Function *F, Loop *L,
                                UnrollingPreferences &UP) const override;
 
   /// @}
@@ -77,14 +77,10 @@ class C6000TTI final : public ImmutablePass, public TargetTransformInfo {
        return 16;
 
     return 64;
-  }
+  } 
 
   unsigned getRegisterBitWidth(bool Vector) const override {
     return 32;
-  }
-
-  unsigned getMaximumUnrollFactor() const override {
-      return 4;
   }
 
   unsigned getMemoryOpCost(unsigned Opcode, Type *Src, unsigned Alignment,
@@ -102,27 +98,10 @@ llvm::createC6000TargetTransformInfoPass(const C6000TargetMachine *TM) {
   return new C6000TTI(TM);
 }
 
-void C6000TTI::getUnrollingPreferences(Loop *L,
-                                       UnrollingPreferences &UP) const {
-  // Scan the loop: don't unroll loops with calls.
-   for (Loop::block_iterator I = L->block_begin(), E = L->block_end();
-       I != E; ++I) {
-    BasicBlock *BB = *I;
-
-    for (BasicBlock::iterator J = BB->begin(), JE = BB->end(); J != JE; ++J)
-      if (isa<CallInst>(J) || isa<InvokeInst>(J)) {
-        ImmutableCallSite CS(J);
-        if (const Function *F = CS.getCalledFunction()) {
-          if (!TopTTI->isLoweredToCall(F))
-            continue;
-        }
-
-        return;
-      }
-  }
-
-  // Enable runtime and partial unrolling
-  UP.Partial = UP.Runtime = true;
+void C6000TTI::getUnrollingPreferences(const Function *F, Loop *L,
+                                         UnrollingPreferences &UP) const {
+  // Disable partial & runtime unrolling on -Os.
+  UP.PartialOptSizeThreshold = 0;
 }
 
 unsigned C6000TTI::getMemoryOpCost(unsigned Opcode, Type *Src, 
