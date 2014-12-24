@@ -1435,8 +1435,8 @@ Optional Features:
   --enable-targets        Build specific host targets: all or
                           target1,target2,... Valid targets are: host, x86,
                           x86_64, sparc, powerpc, arm64, arm, aarch64, mips,
-                          hexagon, xcore, msp430, nvptx, systemz, r600, and
-                          cpp (default=all)
+                          hexagon, xcore, msp430, c6000, nvptx, 
+                          systemz, r600, and cpp (default=all)
   --enable-experimental-targets
                           Build experimental host targets: disable or
                           target1,target2,... (default=disable)
@@ -5309,7 +5309,7 @@ _ACEOF
 
 fi
 
-ALL_TARGETS="X86 Sparc PowerPC ARM AArch64 Mips XCore MSP430 CppBackend NVPTX Hexagon SystemZ R600"
+ALL_TARGETS="X86 Sparc PowerPC ARM AArch64 Mips XCore MSP430 C6000 CppBackend NVPTX Hexagon SystemZ R600"
 ALL_TARGETS=$ALL_TARGETS
 
 
