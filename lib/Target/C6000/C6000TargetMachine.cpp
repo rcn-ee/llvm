@@ -62,8 +62,10 @@ void C6000TargetMachine::addAnalysisPasses(PassManagerBase &PM) {
   // Add first the target-independent BasicTTI pass, then our C6000 pass. This
   // allows the C6000 pass to delegate to the target independent layer when
   // appropriate.
-  PM.add(createBasicTargetTransformInfoPass(this));
-  PM.add(createC6000TargetTransformInfoPass(this));
+  // Disable C6000 specific optimizations due to segfaults resulting from
+  // incomplete SubTarget implementation.
+  //PM.add(createBasicTargetTransformInfoPass(this));
+  //PM.add(createC6000TargetTransformInfoPass(this));
 }
 
 namespace {

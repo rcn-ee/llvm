@@ -2096,7 +2096,11 @@ Instruction *InstCombiner::visitSwitchInst(SwitchInst &SI) {
   // x86 generates redundant zero-extenstion instructions if the operand is
   // truncated to i8 or i16.
   bool TruncCond = false;
-  if (DL && BitWidth > NewWidth &&
+
+  // TI modification, 08.27.2015
+  // Optimization generates non-standard integer width types e.g. i5
+  // Such types are not supported by the translator.
+  if (0 && DL && BitWidth > NewWidth &&
       NewWidth >= DL->getLargestLegalIntTypeSize()) {
     TruncCond = true;
     IntegerType *Ty = IntegerType::get(SI.getContext(), NewWidth);
