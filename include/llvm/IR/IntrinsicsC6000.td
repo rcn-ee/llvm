@@ -349,4 +349,8 @@ def int_c6000_amem4 : Intrinsic<[llvm_ptri32_ty], [llvm_ptr_ty],
                                 [IntrNoMem]>;
 def int_c6000_amem2 : Intrinsic<[llvm_ptri16_ty], [llvm_ptr_ty], 
                                 [IntrNoMem]>;
+def int_c6000_davgu4 : Intrinsic<[llvm_i64_ty], [llvm_i64_ty, llvm_i64_ty],
+                                  [IntrNoMem]>;
+def int_c6000_davg2 : Intrinsic<[llvm_i64_ty], [llvm_i64_ty, llvm_i64_ty],
+                                  [IntrNoMem]>;
 }
