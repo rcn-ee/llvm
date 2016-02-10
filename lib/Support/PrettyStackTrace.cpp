@@ -136,7 +136,9 @@ void PrettyStackTraceProgram::print(raw_ostream &OS) const {
 }
 
 static bool RegisterCrashPrinter() {
+#ifndef _SYS_BIOS
   sys::AddSignalHandler(CrashHandler, nullptr);
+#endif  
   return false;
 }
 

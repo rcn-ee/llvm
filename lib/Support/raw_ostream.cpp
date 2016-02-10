@@ -56,6 +56,10 @@
 # define STDERR_FILENO 2
 #endif
 #endif
+#ifdef _SYS_BIOS
+#undef  HAVE_WRITEV
+#undef  O_BINARY
+#endif
 
 using namespace llvm;
 

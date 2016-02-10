@@ -35,6 +35,9 @@
 //    namespace - this define makes this impossible.
 #define snprintf _snprintf
 #endif
+#ifdef _SYS_BIOS
+#define snprintf  sprintf
+#endif
 
 namespace llvm {
 

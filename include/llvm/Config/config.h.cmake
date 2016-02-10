@@ -195,7 +195,7 @@
 #cmakedefine HAVE_LINK_H ${HAVE_LINK_H}
 
 /* Define if you can use -rdynamic. */
-#define HAVE_LINK_EXPORT_DYNAMIC 1
+#undef HAVE_LINK_EXPORT_DYNAMIC
 
 /* Define if you can use -Wl,-R. to pass -R. to the linker, in order to add
    the current directory to the dynamic linker search path. */

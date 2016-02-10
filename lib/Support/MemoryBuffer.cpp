@@ -382,7 +382,7 @@ getOpenFileImpl(int FD, const Twine &Filename, uint64_t FileSize,
 #endif
 
   while (BytesLeft) {
-#ifdef HAVE_PREAD
+#if defined(HAVE_PREAD) && !defined(_SYS_BIOS)
     ssize_t NumRead = ::pread(FD, BufPtr, BytesLeft, MapSize-BytesLeft+Offset);
 #else
     ssize_t NumRead = ::read(FD, BufPtr, BytesLeft);

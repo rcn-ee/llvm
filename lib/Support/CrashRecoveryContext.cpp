@@ -216,6 +216,8 @@ void CrashRecoveryContext::Disable() {
     sCurrentExceptionHandle.set(NULL);
   }
 }
+#else
+#ifndef LLVM_ON_SYS_BIOS
 
 #else
 
@@ -300,7 +302,7 @@ void CrashRecoveryContext::Disable() {
   for (unsigned i = 0; i != NumSignals; ++i)
     sigaction(Signals[i], &PrevActions[i], nullptr);
 }
-
+#endif
 #endif
 
 bool CrashRecoveryContext::RunSafely(function_ref<void()> Fn) {
