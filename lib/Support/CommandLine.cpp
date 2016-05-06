@@ -35,9 +35,6 @@
 #include <cerrno>
 #include <cstdlib>
 #include <map>
-#ifdef _SYS_BIOS
-#include "strdup.h"
-#endif
 #include <system_error>
 using namespace llvm;
 using namespace cl;
@@ -779,7 +776,7 @@ void cl::ParseEnvironmentOptions(const char *progName, const char *envVar,
   TokenizeGNUCommandLine(envValue, Saver, newArgv);
   int newArgc = static_cast<int>(newArgv.size());
   ParseCommandLineOptions(newArgc, &newArgv[0], Overview);
-#endif	
+#endif
 }
 
 void cl::ParseCommandLineOptions(int argc, const char *const *argv,
@@ -788,7 +785,7 @@ void cl::ParseCommandLineOptions(int argc, const char *const *argv,
   SmallVector<Option *, 4> PositionalOpts;
   SmallVector<Option *, 4> SinkOpts;
   StringMap<Option *> Opts;
-#ifndef _SYS_BIOS  
+#ifndef _SYS_BIOS
   GetOptionInfo(PositionalOpts, SinkOpts, Opts);
 
   assert((!Opts.empty() || !PositionalOpts.empty()) && "No options specified!");

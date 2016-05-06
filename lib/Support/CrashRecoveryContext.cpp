@@ -217,9 +217,7 @@ void CrashRecoveryContext::Disable() {
   }
 }
 #else
-#ifndef LLVM_ON_SYS_BIOS
-
-#else
+#ifndef _SYS_BIOS
 
 // Generic POSIX implementation.
 //

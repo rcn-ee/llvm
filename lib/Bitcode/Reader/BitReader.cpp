@@ -14,9 +14,7 @@
 #include "llvm/Support/MemoryBuffer.h"
 #include <cstring>
 #include <string>
-#ifdef _SYS_BIOS
-#include "strdup.h"
-#endif
+
 using namespace llvm;
 
 /* Builds a module from the bitcode in the specified memory buffer, returning a

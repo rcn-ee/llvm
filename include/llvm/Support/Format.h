@@ -36,7 +36,7 @@
 #define snprintf _snprintf
 #endif
 #ifdef _SYS_BIOS
-#define snprintf  sprintf
+#define snprintf(a,b,c, ...)  sprintf(a,c, __VA_ARGS__)
 #endif
 
 namespace llvm {

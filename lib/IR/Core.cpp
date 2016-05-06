@@ -39,9 +39,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <system_error>
-#ifdef _SYS_BIOS
-#include "strdup.h"
-#endif
+
 using namespace llvm;
 
 #define DEBUG_TYPE "ir"

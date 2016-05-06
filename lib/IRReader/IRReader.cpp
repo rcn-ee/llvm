@@ -112,10 +112,8 @@ LLVMBool LLVMParseIRInContext(LLVMContextRef ContextRef,
 
       Diag.print(nullptr, os, false);
       os.flush();
-#ifndef _SYS_BIOS
 
       *OutMessage = strdup(buf.c_str());
-#endif
     }
     return 1;
   }
