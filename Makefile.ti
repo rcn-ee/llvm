@@ -1,0 +1,20 @@
+export
+
+LLVM_SRC_DIR?=$(shell pwd)/llvm
+
+all.sysbios: setup.sysbios
+	$(MAKE) -C build.sysbios/build.native llvm-tblgen llvm-config -j8
+	$(MAKE) -C build.sysbios LLVMSupport LLVMCore LLVMBitReader -j8
+	cd build.sysbios; $(MAKE) -f include/llvm/Makefile install/local
+	cp build.sysbios/lib/*.a install.sysbios/lib
+	cp build.sysbios/build.native/bin/llvm-config install.sysbios/bin/llvm-config-host
+
+setup.sysbios:
+	mkdir -p build.sysbios/build.native
+	mkdir -p install.sysbios/lib; mkdir -p install.sysbios/bin
+	cd build.sysbios/build.native; cmake $(LLVM_SRC_DIR)
+	cd build.sysbios; cmake -DCMAKE_TOOLCHAIN_FILE=$(LLVM_SRC_DIR)/ToolChain_ARMSysBios.cmake -Wno-dev $(LLVM_SRC_DIR)
+
+realclean.sysbios:
+	rm -rf build.sysbios install.sysbios
+
