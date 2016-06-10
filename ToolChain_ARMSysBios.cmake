@@ -7,7 +7,7 @@ set(CROSS_COMPILE ON)
 
 set(CMAKE_C_COMPILER   $ENV{GCC_ARM_NONE_TOOLCHAIN}/bin/arm-none-eabi-gcc)
 set(CMAKE_CXX_COMPILER $ENV{GCC_ARM_NONE_TOOLCHAIN}/bin/arm-none-eabi-g++)
-set(GCC_COVERAGE_COMPILE_FLAGS "-D_SYS_BIOS -mfloat-abi=hard")
+set(GCC_COVERAGE_COMPILE_FLAGS "-D_SYS_BIOS -DNDEBUG -mfloat-abi=hard")
 set(GCC_COVERAGE_LINK_FLAGS    "-lrdimon -lc -lc -lnosys")
 set(CMAKE_C_FLAGS   "${GCC_COVERAGE_COMPILE_FLAGS}" CACHE STRING "toolchain_cflags" FORCE)
 set(CMAKE_CXX_FLAGS "${GCC_COVERAGE_COMPILE_FLAGS}" CACHE STRING "toolchain_cxxflags" FORCE)
