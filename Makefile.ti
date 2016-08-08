@@ -1,6 +1,25 @@
 export
 
 LLVM_SRC_DIR?=$(shell pwd)/llvm
+BUILD_DIR?=$(shell pwd)
+
+LLVMCONFIG?=--enable-targets="host,arm,c6000,msp430" --disable-zlib --disable-terminfo --disable-libedit --enable-bindings=none
+
+all.x86: setup.x86
+	$(MAKE) -C build.x86
+	$(MAKE) -C build.x86 install
+
+setup.x86:
+	mkdir -p build.x86; mkdir -p install.x86
+	cd build.x86; ../llvm/configure $(LLVMCONFIG) --prefix=$(BUILD_DIR)/install.x86
+
+all.arm: setup.arm
+	$(MAKE) -C build.arm REQUIRES_RTTI=1
+	$(MAKE) -C build.arm install
+
+setup.arm:
+	mkdir -p build.arm; mkdir -p install.arm
+	cd build.arm; ../llvm/configure $(LLVMCONFIG) --enable-optimized --enable-keep-symbols --prefix=$(BUILD_DIR)/install.arm --build=x86_64-linux-gnu --host=arm-linux-gnueabihf
 
 all.sysbios: setup.sysbios
 	$(MAKE) -C build.sysbios/build.native llvm-tblgen llvm-config -j8

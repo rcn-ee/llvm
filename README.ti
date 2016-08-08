@@ -1,0 +1,63 @@
+Build Clang/LLVM from release_36_ti branch
+==========================================
+1. Set up directory structure
+-----------------------------
+> mkdir ti-llvm; cd ti-llvm
+> git clone git@git.ti.com:opencl/llvm.git
+> cd llvm; git checkout release_36_ti
+> cd tools; git clone git@git.ti.com:opencl/clang.git
+> cd clang; git checkout release_36_ti
+> cd ../../..    ### go back to ti-llvm directory
+
+2. Build with Makefile.ti
+-------------------------
+2.1 Linux on x86 
+> ### use your system default gcc/g++
+> make -f llvm/Makefile.ti all.x86 -j4
+> ### results in install.x86
+
+2.2 Cross compile on Linux on x86 (Host, where it is build)
+    for Linux on ARM (Target, where built Clang/LLVM are used)
+> ### download arm gcc toolchain from linaro
+> ### http://www.linaro.org/downloads/
+> ### https://releases.linaro.org/components/toolchain/binaries/latest-5/arm-linux-gnueabihf/
+> ### download, install, make sure arm-linux-gnueabihf-gcc is in PATH
+> export PATH=$(ARM_GCC_LINARO_TOOLCHAIN_LINUX)/bin:$PATH
+> make -f llvm/Makefile.ti all.arm -j4
+> ### results in install.arm
+
+2.3 Cross compile on Linux on x86 (Host, where it is build)
+    for TI-RTOS on ARM (Target, where built Clang/LLVM are used)
+> ### download and install the latest version of Code Composer Studio (CCS)
+> ### add CCS_DIR/tools/compiler/gcc-arm-none-eabi-4_9-2015q3/bin/ to PATH
+> make -f llvm/Makefile.ti all.sysbios -j4
+> ### results in install.sysbios
+
+
+Use Clang/LLVM as frontend to C6000 compiler (EXPERIMENTAL)
+-==========================================================
+EXPERIMENTAL! No Official Support!
+
+Latest C6000 compiler
+---------------------
+Download from http://software-dl.ti.com/codegen/non-esd/downloads/download.htm
+Recommend C6000 compiler version >= 8.1.1
+
+1. Use Clang/LLVM built into C6000 compiler
+-------------------------------------------
+Use command line option "--use_llvm" to switch C6000 compiler from default EDG
+frontend to Clang/LLVM frontend.  However, user cannot make changes to
+Clang/LLVM that is already built into the C6000 compiler.
+> cl6x --usel_llvm -mv6600 --abi=eabi -o3 t1.c
+
+2. Use Clang/LLVM built from release_36_ti branch with C6000 compiler
+---------------------------------------------------------------------
+This is a two-step process.  Step 1 is to use Clang/LLVM built from
+release_36_ti branch to generate LLVM bitcode.  Step 2 is to feed LLVM bitcode
+to C6000 compiler for code generation.
+Step 1:
+> clang -cc1 -O2 -triple=c6000-unknown-unknown-unknown -emit-llvm-bc -x c  t2.c
+> clang -cc1 -O2 -triple=c6000-unknown-unknown-unknown -emit-llvm-bc -x cl -cl-std=CL1.2 t2.cl
+Step 2:
+> cl6x -mv6600 --abi=eabi -o3 --bc_file=t2.bc
+
