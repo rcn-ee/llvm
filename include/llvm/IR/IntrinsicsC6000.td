@@ -440,5 +440,6 @@ def int_c6000_cmatmpy:    Intrinsic<[llvm_v4i32_ty], [llvm_v4i16_ty, llvm_v8i16_
 def int_c6000_cmatmpyr1:  Intrinsic<[llvm_v4i16_ty], [llvm_v4i16_ty, llvm_v8i16_ty], [IntrNoMem]>;
 def int_c6000_qsmpy32r1:  Intrinsic<[llvm_v4i32_ty], [llvm_v4i32_ty, llvm_v4i32_ty], [IntrNoMem]>;
 def int_c6000_xorll_c:    Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i64_ty], [IntrNoMem]>;
+def int_c6000_add40_u32:  Intrinsic<[llvm_i64_ty], [llvm_i32_ty, llvm_i32_ty], [IntrNoMem]>;
 
 }
