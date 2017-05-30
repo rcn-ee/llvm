@@ -59,7 +59,8 @@ public:
     c2000,      // TI C2000
     c6000,      // TI C6000 (little endian)
     c6000be,    // TI C6000 (big endian)
-    c7000,      // TI C7000 (little endian)
+    c7x,        // TI C7000 (little endian)
+    c7xe,       // TI C7000 (big endian)
     ppc,        // PPC: powerpc
     ppc64,      // PPC64: powerpc64, ppu
     ppc64le,    // PPC64LE: powerpc64le

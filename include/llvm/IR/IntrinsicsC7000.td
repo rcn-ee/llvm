@@ -11,7 +11,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-let TargetPrefix = "c7000" in {  // All intrinsics start with "llvm.c7000.".
+let TargetPrefix = "c7x" in {  // All intrinsics start with "llvm.c7000.".
 
 //===-------------------------- C7x Intrinsics --------------------------===//
 //
