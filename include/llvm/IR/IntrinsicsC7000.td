@@ -15,4 +15,5 @@ let TargetPrefix = "c7x" in {  // All intrinsics start with "llvm.c7000.".
 
 //===-------------------------- C7x Intrinsics --------------------------===//
 //
+    def int_c7x_recip : Intrinsic<[llvm_anyfloat_ty], [LLVMMatchType<0>], [IntrNoMem]>;
 }
