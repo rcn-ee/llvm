@@ -196,7 +196,7 @@ LockFileManager::WaitForUnlockResult LockFileManager::waitForUnlock() {
     // lock file is deleted?
 #if LLVM_ON_WIN32
     Sleep(Interval);
-#elseif !defined(_SYS_BIOS)
+#elif !defined(_SYS_BIOS)
     nanosleep(&Interval, nullptr);
 #endif
     bool LockFileJustDisappeared = false;
